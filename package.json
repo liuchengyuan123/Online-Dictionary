@@ -10,7 +10,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:online-dictionary.lookUpWord"
+		"onCommand:online-dictionary.lookUpWord",
+		"onCommand:online-dictionary.lookUpSelected"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -18,6 +19,10 @@
 			{
 				"command": "online-dictionary.lookUpWord",
 				"title": "look up words"
+			},
+			{
+				"command": "online-dictionary.loopUpSelected",
+				"title": "look up selected word"
 			}
 		]
 	},
@@ -39,5 +44,6 @@
 	},
 	"dependencies": {
 		"request": "^2.88.2"
-	}
+	},
+	"publisher": "TABball"
 }

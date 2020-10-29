@@ -14,6 +14,7 @@ function activate(context) {
 	// request to baidu fanyi
 	var cur_word = "";
 	var connect = function (word) {
+		console.log(`in connect, ${word}`);
 		var data = {
 			'kw': word
 		};
@@ -27,12 +28,15 @@ function activate(context) {
 		}, function (error, response, body) {
 			if (error) {
 				console.error(error);
+				vscode.window.showErrorMessage(error);
 			}
 			else {
-				if (word == cur_word) {
-					var result = JSON.parse(body);
+				var result = JSON.parse(body);
+				console.log(result);
+				if (result.data.length == 0)
+					vscode.window.showWarningMessage('not found as a valid english word');
+				else
 					vscode.window.showInformationMessage(result.data[0].v)
-				}
 			}
 		});
 	};
@@ -45,6 +49,12 @@ function activate(context) {
 			cur_word = value;
 			connect(cur_word);
 		});
+	}));
+
+	context.subscriptions.push(vscode.commands.registerTextEditorCommand('online-dictionary.loopUpSelected', (textEditor, edit) => {
+		// console.log('in selected');
+		cur_word = textEditor.document.getText(textEditor.selection);
+		connect(cur_word);
 	}));
 }
 exports.activate = activate;
